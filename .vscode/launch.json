@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "ENV_FILE_PATH": "${workspaceRoot}/envs/.env.debug",
+            }
+        },
+        {
+            "name": "Debug Unit Test",
+            "type": "python",
+            "request": "launch",
+            "justMyCode": false,
+            "program": "${file}",
+            "purpose": [
+                "debug-test"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTEST_ADDOPTS": "--no-cov",
+                "TESTING_NO_TEARDOWN": "true",
+            },
+        }
+    ]
+}

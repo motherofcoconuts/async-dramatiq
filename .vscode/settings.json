@@ -1,0 +1,54 @@
+{
+    "python.pythonPath": ".venv/bin/python3.11",
+    "python.venvPath": "${workspaceFolder}/.venv",
+    "files.exclude": {
+        "**/._*": true,
+        "*.pyc": true,
+        "**/__pycache__": true,
+        ".pylintrc": true,
+        "requirements.txt": true,
+        ".mypy_cache": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        ".venv/*": true,
+        "**/local_dev/postgres-data/**": true,
+        "**/local_dev/s3-data/**": true,
+    },
+    "python.testing.pytestArgs": [
+        "${workspaceFolder}/src/tests",
+        "--no-cov"
+    ],
+    "editor.formatOnSave": true,
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
+        "editor.defaultFormatter": null,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+    },
+    "python.testing.unittestEnabled": false,
+    "python.formatting.provider": "black",
+    "python.linting.mypyEnabled": false,
+    "python.linting.mypyPath": "${workspaceFolder}/.venv/bin/mypy",
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "${workspaceFolder}/.venv/bin/flakehell",
+    "python.linting.flake8Args": [
+        "--config=${workspaceFolder}/.pyproject.toml"
+    ],
+    "python.linting.pylintEnabled": false,
+    "python.formatting.blackPath": "${workspaceFolder}/.venv/bin/black",
+    "python.formatting.blackArgs": [
+        "-C"
+    ],
+    "terminal.integrated.scrollback": 10000,
+    "python.languageServer": "Pylance",
+    "python.analysis.typeCheckingMode": "off",
+    "task.allowAutomaticTasks": "on",
+    "editor.formatOnSaveMode": "file",
+    "python.testing.pytestEnabled": true
+}

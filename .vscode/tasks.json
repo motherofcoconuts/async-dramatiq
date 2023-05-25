@@ -1,0 +1,121 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Run mypy daemon",
+            "command": "${workspaceFolder}/.venv/bin/dmypy run -- --follow-imports=skip ${workspaceFolder}/src/async_dramatiq",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "python",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Restart mypy daemon",
+            "command": "${workspaceFolder}/.venv/bin/dmypy kill && ${workspaceFolder}/.venv/bin/dmypy run -- --follow-imports=skip ${workspaceFolder}/src/async_dramatiq",
+            "problemMatcher": {
+                "owner": "python",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            }
+        },
+        {
+            "type": "process",
+            "label": "Format",
+            "command": "${config:python.pythonPath}",
+            "args": [
+                "-m",
+                "black",
+                "${file}"
+            ],
+            "isBackground": true,
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "panel": "shared",
+            }
+        },
+        {
+            "type": "process",
+            "label": "Sort Imports",
+            "command": "${config:python.pythonPath}",
+            "args": [
+                "-m",
+                "isort",
+                "${file}"
+            ],
+            "isBackground": true,
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "panel": "shared",
+            }
+        },
+        {
+            "type": "process",
+            "label": "Lint File",
+            "command": "${config:python.pythonPath}",
+            "args": [
+                "-m",
+                "flake8",
+                "--config=${workspaceFolder}/.flake8",
+                "${file}"
+            ],
+            "isBackground": true,
+            "presentation": {
+                "echo": false,
+                "reveal": "never",
+                "panel": "shared",
+            }
+        },
+        {
+            "label": "On Save Python",
+            "dependsOn": [
+                "Format File",
+                "Sort Imports",
+                "Lint File",
+                "Run mypy daemon"
+            ],
+            "problemMatcher": {
+                "owner": "python",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "severity": 3,
+                    "message": 4
+                }
+            }
+        }
+    ]
+}

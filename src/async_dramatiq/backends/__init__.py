@@ -1,11 +1,12 @@
-from dramatiq.results.backend import ResultBackend
 from dramatiq import get_broker
 from dramatiq.results import Results
 from dramatiq.results.backend import ResultBackend
-from .async_redis import AsyncRedisBackend
-from .async_stub import AsyncStubBackend
+
+from .async_redis import AsyncRedisBackend  # noqa: F401
+from .async_stub import AsyncStubBackend  # noqa: F401
 
 backend: ResultBackend | None = None
+
 
 def get_backend() -> ResultBackend:
     global backend

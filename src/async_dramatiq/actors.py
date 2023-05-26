@@ -7,13 +7,10 @@ from datetime import timedelta
 from typing import Any, Callable
 
 import dramatiq as dq
+from baton_tms.helpers.monitoring import monitor
 from sentry_sdk import start_transaction
 
-# Local Application Imports
-from baton_tms.helpers.monitoring import monitor
-
 from .scheduler import register_cron, register_interval
-
 from .types import DramatiqWorkerPriority
 
 

@@ -1,7 +1,7 @@
 # Standard Library Imports
+from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any, Callable
-from dataclasses import dataclass
 
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger

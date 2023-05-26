@@ -1,18 +1,11 @@
-# Standard Library Imports
-import asyncio
-import time
-
 import dramatiq as dq
 from dramatiq.results.backend import (
-    Missing,
+    DEFAULT_TIMEOUT,
     Result,
     ResultMissing,
     ResultTimeout,
-    compute_backoff,
 )
 from dramatiq.results.backends import RedisBackend
-
-from async_dramatiq.config import DEFAULT_TIMEOUT, BACKOFF_FACTOR
 
 
 class AsyncRedisBackend(RedisBackend):

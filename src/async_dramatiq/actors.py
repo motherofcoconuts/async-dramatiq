@@ -8,6 +8,7 @@ from typing import Any, Callable
 
 import dramatiq as dq
 
+
 from .scheduler import register_cron, register_interval
 from .types import DramatiqWorkerPriority
 
@@ -48,7 +49,6 @@ class AsyncActor(dq.Actor):
 
     def set_event_loop(self, loop: asyncio.BaseEventLoop | None) -> None:
         self.event_loop = loop
-
 
 def async_dramatiq_actor(
     *,

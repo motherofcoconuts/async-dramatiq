@@ -125,8 +125,7 @@ async def test_async_request(
 ) -> None:
     @dramatiq_actor(store_results=True)
     async def test_async():
-        asyncio.sleep(0.25)
-
+        await asyncio.sleep(0.25)
         return True
 
     # Setup actor event loop

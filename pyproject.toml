@@ -2,10 +2,14 @@
 name = "async-dramatiq"
 version = "0.1.0"
 description = "Dramatiq with Asyncio support and some other goodies"
-authors = ["Ryan Houlihan <ryan@batontrucking.com>"]
-license = "MIT"
+authors = ["Ryan Houlihan <ryan@rhoulihan.com>"]
+license = "MIT License"
 readme = "README.md"
 packages = [{include = "async_dramatiq"}]
+homepage = "https://github.com/motherofcoconuts/async-dramatiq"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/motherofcoconuts/async-dramatiq/issues"
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
@@ -26,17 +30,16 @@ requires = ["setuptools", "poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-env = ["ENV=test","TESTING_NO_TEARDOWN=true", "ENV_FILE_PATH=./envs/.env.test"]
 junit_family = "xunit2"
 asyncio_mode = "auto"
 addopts = "--cov --cov-report term --cov-report xml"
 testpaths = [
-  "src/tests"
+  "tests"
 ]
 filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning:stytch.*"]
 
 [tool.coverage.run]
-source = ["src/async_dramatiq"]
+source = ["async_dramatiq"]
 omit = ["*migratons*", "*tests*", "*scripts*"]
 
 [tool.coverage.report]
@@ -101,7 +104,7 @@ exclude = ["scripts/"]
 ignore_decorators = ["@app.route", "@require_*"]
 make_whitelist = true
 min_confidence = 80
-paths = ["src/baton_tms"]
+paths = ["async_dramatiq"]
 sort_by_size = true
 verbose = false
 

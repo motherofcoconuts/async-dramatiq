@@ -3,11 +3,8 @@ from __future__ import annotations
 # Standard Library Imports
 import asyncio
 from threading import Event, Thread
-import dramatiq as dq
 
-# Local Application Imports
-from baton_tms.config import config
-from baton_tms.resources import shutdown, startup
+import dramatiq as dq
 
 
 class AsyncWorker(Thread):
@@ -20,8 +17,7 @@ class AsyncWorker(Thread):
         self.event_loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self.event_loop)
 
-        if not config.testing:
-            self.event_loop.run_until_complete(startup())
+        self.broker.emit_before("async_worker_thread_startup", self)
 
         for actor in [  # Set event loop of actors to this loop
             self.broker.get_actor(a) for a in self.broker.get_declared_actors()
@@ -31,10 +27,7 @@ class AsyncWorker(Thread):
         self.event_loop.call_soon_threadsafe(self.startup_event.set)
         self.event_loop.run_forever()
 
-        # Clean up
-        if not config.testing:
-            self.event_loop.run_until_complete(shutdown())
-            self.event_loop.close()
+        self.broker.emit_after("async_worker_thread_shutdown", self)
 
     def stop(self) -> None:
         self.event_loop.call_soon_threadsafe(self.event_loop.stop)

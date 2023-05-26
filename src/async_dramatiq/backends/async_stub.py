@@ -4,6 +4,8 @@ import time
 
 import dramatiq as dq
 from dramatiq.results.backend import (
+    BACKOFF_FACTOR,
+    DEFAULT_TIMEOUT,
     Missing,
     Result,
     ResultMissing,
@@ -12,7 +14,6 @@ from dramatiq.results.backend import (
 )
 from dramatiq.results.backends import StubBackend
 
-from async_dramatiq.config import DEFAULT_TIMEOUT, BACKOFF_FACTOR
 
 class AsyncStubBackend(StubBackend):
     async def get_result(

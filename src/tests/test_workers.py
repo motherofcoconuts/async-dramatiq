@@ -1,11 +1,13 @@
 # Standard Library Imports
 from threading import Event
 
+from dramatiq.brokers.stub import StubBroker
+
 # Local Application Imports
 from async_dramatiq.worker import AsyncWorker
 
 
-def test_async_worker(broker: Br):
+def test_async_worker(broker: StubBroker) -> None:
     startup_event = Event()
     async_worker = AsyncWorker(startup_event, broker)
     async_worker.start()

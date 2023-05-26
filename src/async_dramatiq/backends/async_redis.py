@@ -5,7 +5,7 @@ from dramatiq.results.backend import (
     ResultMissing,
     ResultTimeout,
 )
-from dramatiq.results.backends import RedisBackend
+from dramatiq.results.backends.redis import RedisBackend
 
 
 class AsyncRedisBackend(RedisBackend):

@@ -7,8 +7,9 @@ from datetime import timedelta
 from typing import Any, Callable
 
 import dramatiq as dq
-from baton_tms.helpers.monitoring import monitor
-from sentry_sdk import start_transaction
+
+# from baton_tms.helpers.monitoring import monitor
+# from sentry_sdk import start_transaction
 
 from .scheduler import register_cron, register_interval
 from .types import DramatiqWorkerPriority
@@ -32,22 +33,22 @@ class AsyncActor(dq.Actor):
         except RuntimeError:
             running_event_loop = None
 
-        with start_transaction(op="actor", name=self.actor_name):
-            if inspect.iscoroutinefunction(self.fn):
-                if running_event_loop:  # Call function directly
-                    result = self.fn(*args, **kwargs)
-                elif (  # Call function through worker thread
-                    self.event_loop and self.event_loop.is_running()
-                ):
-                    future = asyncio.run_coroutine_threadsafe(
-                        self.fn(*args, **kwargs), self.event_loop
-                    )
-                    result = future.result()
-                else:  # This should not happen
-                    raise RuntimeError("No event")
-            else:
+        # with start_transaction(op="actor", name=self.actor_name):
+        if inspect.iscoroutinefunction(self.fn):
+            if running_event_loop:  # Call function directly
                 result = self.fn(*args, **kwargs)
-            return result
+            elif (  # Call function through worker thread
+                self.event_loop and self.event_loop.is_running()
+            ):
+                future = asyncio.run_coroutine_threadsafe(
+                    self.fn(*args, **kwargs), self.event_loop
+                )
+                result = future.result()
+            else:  # This should not happen
+                raise RuntimeError("No event")
+        else:
+            result = self.fn(*args, **kwargs)
+        return result
 
     def set_event_loop(self, loop: asyncio.BaseEventLoop | None) -> None:
         self.event_loop = loop
@@ -80,12 +81,12 @@ def dramatiq_actor(
         if interval or crontab:
             queue_name = kwargs.get("queue_name") or "default"
             throws: tuple[Exception, ...] = kwargs.get("throws", ())
-            func = monitor(
-                func,
-                name=f"{func.__name__} from {queue_name}",
-                monitor_id=monitor_id,
-                throws=throws,
-            )
+            # func = monitor(
+            #     func,
+            #     name=f"{func.__name__} from {queue_name}",
+            #     monitor_id=monitor_id,
+            #     throws=throws,
+            # )
         actor = dq.actor(func, actor_class=AsyncActor, priority=priority, **kwargs)
         if crontab:
             register_cron(actor.fn, crontab)

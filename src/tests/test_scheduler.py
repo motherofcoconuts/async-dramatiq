@@ -8,7 +8,8 @@ from apscheduler.triggers.interval import IntervalTrigger
 from async_dramatiq.scheduler import register_cron, register_interval
 from async_dramatiq.scheduler import scheduled_jobs
 
-def test_register_jobs():
+
+def test_register_jobs() -> None:
     def test_func() -> None:
         return None
 
@@ -19,7 +20,7 @@ def test_register_jobs():
     assert scheduled_jobs[-1].func_name == test_func.__name__
 
 
-def test_register_interval():
+def test_register_interval() -> None:
     def test_func() -> None:
         return None
 

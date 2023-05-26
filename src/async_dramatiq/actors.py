@@ -8,7 +8,6 @@ from typing import Any, Callable
 
 import dramatiq as dq
 
-
 from .scheduler import register_cron, register_interval
 from .types import DramatiqWorkerPriority
 
@@ -52,6 +51,7 @@ class AsyncActor(dq.Actor):
 
 
 def async_dramatiq_actor(
+    func: Callable[..., Any] | None = None,
     *,
     interval: timedelta | None = None,
     crontab: str | None = None,

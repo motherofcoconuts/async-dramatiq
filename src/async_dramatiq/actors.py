@@ -59,7 +59,7 @@ def dramatiq_actor(
     interval: timedelta | None = None,
     crontab: str | None = None,
     monitor_id: str | None = None,
-    priority: "DramatiqWorkerPriority" | None = None,
+    priority: DramatiqWorkerPriority = DramatiqWorkerPriority.MEDIUM,
     **kwargs: Any,
 ) -> Any:
     """Thin wrapper which turns a function into a dramatiq actor.
@@ -75,8 +75,6 @@ def dramatiq_actor(
 
     Dramatiq Actor: https://dramatiq.io/_modules/dramatiq/actor.html
     """
-    priority = DramatiqWorkerPriority.HIGH if priority is None else priority
-
     def decorator(func: Callable[..., Any]) -> dq.Actor:
         if interval or crontab:
             queue_name = kwargs.get("queue_name") or "default"

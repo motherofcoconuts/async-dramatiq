@@ -6,7 +6,7 @@
         {
             "type": "shell",
             "label": "Run mypy daemon",
-            "command": "${workspaceFolder}/.venv/bin/dmypy run -- --follow-imports=skip ${workspaceFolder}/src/async_dramatiq",
+            "command": "${workspaceFolder}/.venv/bin/dmypy run -- --follow-imports=skip ${workspaceFolder}/async_dramatiq",
             "isBackground": true,
             "problemMatcher": {
                 "owner": "python",
@@ -29,7 +29,7 @@
         {
             "type": "shell",
             "label": "Restart mypy daemon",
-            "command": "${workspaceFolder}/.venv/bin/dmypy kill && ${workspaceFolder}/.venv/bin/dmypy run -- --follow-imports=skip ${workspaceFolder}/src/async_dramatiq",
+            "command": "${workspaceFolder}/.venv/bin/dmypy kill && ${workspaceFolder}/.venv/bin/dmypy run -- --follow-imports=skip ${workspaceFolder}/async_dramatiq",
             "problemMatcher": {
                 "owner": "python",
                 "fileLocation": [

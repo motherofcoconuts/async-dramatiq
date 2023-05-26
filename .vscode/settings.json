@@ -18,7 +18,7 @@
         "**/local_dev/s3-data/**": true,
     },
     "python.testing.pytestArgs": [
-        "${workspaceFolder}/src/tests",
+        "${workspaceFolder}/tests",
         "--no-cov"
     ],
     "editor.formatOnSave": true,

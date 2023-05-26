@@ -8,9 +8,6 @@ from typing import Any, Callable
 
 import dramatiq as dq
 
-# from baton_tms.helpers.monitoring import monitor
-# from sentry_sdk import start_transaction
-
 from .scheduler import register_cron, register_interval
 from .types import DramatiqWorkerPriority
 
@@ -33,7 +30,6 @@ class AsyncActor(dq.Actor):
         except RuntimeError:
             running_event_loop = None
 
-        # with start_transaction(op="actor", name=self.actor_name):
         if inspect.iscoroutinefunction(self.fn):
             if running_event_loop:  # Call function directly
                 result = self.fn(*args, **kwargs)
@@ -54,38 +50,32 @@ class AsyncActor(dq.Actor):
         self.event_loop = loop
 
 
-def dramatiq_actor(
+def async_dramatiq_actor(
     *,
     interval: timedelta | None = None,
     crontab: str | None = None,
-    monitor_id: str | None = None,
     priority: DramatiqWorkerPriority = DramatiqWorkerPriority.MEDIUM,
+    actor_class: type[AsyncActor] = AsyncActor,
+    queue_name: str = "default",
     **kwargs: Any,
 ) -> Any:
     """Thin wrapper which turns a function into a dramatiq actor.
 
     :param interval: Run this function at a defined interval
     :param crontab: Run this function as a cron job
-    :param monitor_id: The Sentry `monitor_id` for this job
     :param priority: The actor's global priority.  If two tasks have
         been pulled on a worker concurrently and one has a higher
         priority than the other then it will be processed first.
         Lower numbers represent higher priorities.
+    :param actor_class: The actor class to use
+    :param queue_name: The name of the queue to send messages to
     :param kwargs: Input parameters for the dramatiq actor
 
     Dramatiq Actor: https://dramatiq.io/_modules/dramatiq/actor.html
     """
+
     def decorator(func: Callable[..., Any]) -> dq.Actor:
-        if interval or crontab:
-            queue_name = kwargs.get("queue_name") or "default"
-            throws: tuple[Exception, ...] = kwargs.get("throws", ())
-            # func = monitor(
-            #     func,
-            #     name=f"{func.__name__} from {queue_name}",
-            #     monitor_id=monitor_id,
-            #     throws=throws,
-            # )
-        actor = dq.actor(func, actor_class=AsyncActor, priority=priority, **kwargs)
+        actor = dq.actor(func, actor_class=actor_class, priority=priority, **kwargs)
         if crontab:
             register_cron(actor.fn, crontab)
         if interval:

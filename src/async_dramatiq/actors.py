@@ -50,6 +50,7 @@ class AsyncActor(dq.Actor):
     def set_event_loop(self, loop: asyncio.BaseEventLoop | None) -> None:
         self.event_loop = loop
 
+
 def async_dramatiq_actor(
     *,
     interval: timedelta | None = None,
@@ -75,7 +76,13 @@ def async_dramatiq_actor(
     """
 
     def decorator(func: Callable[..., Any]) -> dq.Actor:
-        actor = dq.actor(func, actor_class=actor_class, priority=priority, **kwargs)
+        actor = dq.actor(
+            func,
+            actor_class=actor_class,
+            priority=priority,
+            queue_name=queue_name,
+            **kwargs,
+        )
         if crontab:
             register_cron(actor.fn, crontab)
         if interval:

@@ -1,19 +1,17 @@
 # Standard Library Imports
 from datetime import timedelta
 from typing import Any, Callable
+from dataclasses import dataclass
 
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
-from pydantic import BaseModel
 
 
-class ScheduledFunction(BaseModel):
+@dataclass
+class ScheduledFunction:
     trigger: CronTrigger | IntervalTrigger
     module_path: str
     func_name: str
-
-    class Config:
-        arbitrary_types_allowed = True
 
 
 scheduled_jobs: list[ScheduledFunction] = []

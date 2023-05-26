@@ -4,7 +4,7 @@ from __future__ import annotations
 import asyncio
 import inspect
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any, Callable
+from typing import Any, Callable
 
 import dramatiq as dq
 from sentry_sdk import start_transaction
@@ -14,8 +14,7 @@ from baton_tms.helpers.monitoring import monitor
 
 from .scheduler import register_cron, register_interval
 
-if TYPE_CHECKING:
-    from baton_tms.worker import DramatiqWorkerPriority
+from .types import DramatiqWorkerPriority
 
 
 class AsyncActor(dq.Actor):
@@ -78,8 +77,6 @@ def dramatiq_actor(
 
     Dramatiq Actor: https://dramatiq.io/_modules/dramatiq/actor.html
     """
-    from baton_tms.worker import DramatiqWorkerPriority
-
     priority = DramatiqWorkerPriority.HIGH if priority is None else priority
 
     def decorator(func: Callable[..., Any]) -> dq.Actor:

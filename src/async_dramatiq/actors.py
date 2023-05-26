@@ -51,7 +51,6 @@ class AsyncActor(dq.Actor):
 
 
 def async_dramatiq_actor(
-    func: Callable[..., Any] | None = None,
     *,
     interval: timedelta | None = None,
     crontab: str | None = None,

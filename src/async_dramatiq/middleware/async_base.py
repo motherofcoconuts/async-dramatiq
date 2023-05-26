@@ -1,5 +1,6 @@
 # Standard Library Imports
 from threading import Event
+from typing import Any
 
 import dramatiq as dq
 
@@ -15,8 +16,12 @@ class AsyncMiddleware(dq.Middleware):
         startup_event.wait()  # Asyncio IO loop has started
         worker.workers.append(async_worker)
 
-    def before_async_worker_thread_startup(self, async_worker: AsyncWorker) -> None:
+    def before_async_worker_thread_startup(
+        self, broker: dq.Broker, thread: AsyncWorker, **kwargs: dict[str, Any]
+    ) -> None:
         pass
 
-    def after_async_worker_thread_shutdown(self, async_worker: AsyncWorker) -> None:
+    def after_async_worker_thread_shutdown(
+        self, broker: dq.Broker, thread: AsyncWorker, **kwargs: dict[str, Any]
+    ) -> None:
         pass

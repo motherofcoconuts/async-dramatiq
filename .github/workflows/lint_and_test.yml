@@ -47,7 +47,7 @@ jobs:
         run: |
           poetry config virtualenvs.create true
           poetry config virtualenvs.in-project true
-          poetry install --no-interaction --no-root
+          poetry install --no-interaction
 
       - name: Lint and Test
         shell: bash

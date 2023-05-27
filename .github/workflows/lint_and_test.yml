@@ -54,9 +54,7 @@ jobs:
         run: sh ./scripts/lint.sh
 
       - name: Run Tests
-        run: |
-          . .venv/bin/activate
-          pytest -sv --cov-report=xml tests
+        run: pytest -sv --cov-report=xml tests
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3

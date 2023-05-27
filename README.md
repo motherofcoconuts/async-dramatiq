@@ -29,7 +29,6 @@ dramatiq.set_broker(rabbitmq_broker)
 
 ```
 import dramatiq
-import dramatiq
 
 from dramatiq.brokers.redis import RedisBroker
 

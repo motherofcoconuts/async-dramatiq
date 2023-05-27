@@ -51,7 +51,7 @@ class AsyncActor(dq.Actor):
         self.event_loop = loop
 
 
-def async_dramatiq_actor(
+def async_actor(
     *,
     interval: timedelta | None = None,
     crontab: str | None = None,

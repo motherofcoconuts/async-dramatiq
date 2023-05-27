@@ -1,7 +1,7 @@
 # Dramatiq with Asyncio
 [Dramatiq](https://dramatiq.io/) is a background task-processing library for Python with a focus on simplicity, reliability and performance.
 
-This package extends Dramatiq to provide the following:
+This package, [async-dramatiq](https://pypi.org/project/async-dramatiq/), extends Dramatiq to provide the following:
   1. Support for Asyncio ( [issue #238](https://github.com/Bogdanp/dramatiq/issues/238) )
   2. Message scheduling support ( [scheduling cookbook](https://dramatiq.io/cookbook.html#scheduling-messages) )
 
@@ -16,9 +16,7 @@ To provide async support for your actors all you need to do is add the `AsyncMid
 
 ```
 import dramatiq
-
 from dramatiq.brokers.rabbitmq import RabbitmqBroker
-
 
 rabbitmq_broker = RabbitmqBroker(host="rabbitmq")
 rabbitmq_broker.add_middleware(AsyncMiddleware())  # <--- Here
@@ -29,9 +27,7 @@ dramatiq.set_broker(rabbitmq_broker)
 
 ```
 import dramatiq
-
 from dramatiq.brokers.redis import RedisBroker
-
 
 redis_broker = RedisBroker(host="redis")
 redis_broker.add_middleware(AsyncMiddleware()) # <--- Here
@@ -70,12 +66,12 @@ class MyAsyncMiddleware(AsyncMiddleware):
 ```
 
 ## Async Actor
-The async actor, `async_dramatiq_actor`,  acts as a thin wrapper around the Dramatiq actor providing a variety of new functionality.
+The async actor, `async_actor`,  acts as a thin wrapper around the Dramatiq actor providing a variety of new functionality.
 
 #### Interval Jobs
 Run a job at some interval
 ```
-@async_dramatiq_actor(interval=timedelta(seconds=5))
+@async_actor(interval=timedelta(seconds=5))
 def run_every_5_seconds() -> None:
     pass
 ```
@@ -83,7 +79,7 @@ def run_every_5_seconds() -> None:
 #### Cron Jobs
 Run a job on a crontab ( See https://crontab.guru/. )
 ```
-@async_dramatiq_actor(interval="0 0 * * *")
+@async_actor(interval="0 0 * * *")
 def run_at_midnight() -> None:
   pass
 ```

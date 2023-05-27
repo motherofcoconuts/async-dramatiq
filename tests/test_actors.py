@@ -9,24 +9,25 @@ from apscheduler.triggers.interval import IntervalTrigger
 from dramatiq import Worker
 
 # Local Application Imports
-from async_dramatiq.actors import async_dramatiq_actor
+from async_dramatiq.actors import async_actor
 from async_dramatiq.backends import AsyncStubBackend, get_backend
 from async_dramatiq.scheduler import scheduled_jobs
 
 F = TypeVar("F", bound=Callable[..., Any])
 
-def test_async_dramatiq_actor() -> None:
+
+def test_async_actor() -> None:
     scheduled_jobs_len = len(scheduled_jobs)
 
-    @async_dramatiq_actor(interval=timedelta(seconds=5))
+    @async_actor(interval=timedelta(seconds=5))
     def test_interval():
         return None
 
-    @async_dramatiq_actor(crontab="* * * * *")
+    @async_actor(crontab="* * * * *")
     def test_cron():
         return None
 
-    @async_dramatiq_actor()
+    @async_actor()
     async def test_async():
         return None
 
@@ -43,17 +44,18 @@ def test_async_dramatiq_actor() -> None:
 async def test_async_actor_func(event_loop: asyncio.BaseEventLoop) -> None:
     result = "generic result"
 
-    @async_dramatiq_actor()
+    @async_actor()
     async def test_async():
         return result
 
     # Test generic run
     assert result == await test_async()
 
+
 def test_async_actor_func_no_loop() -> None:
     result = "generic result"
 
-    @async_dramatiq_actor()
+    @async_actor()
     async def test_async():
         return result
 
@@ -67,7 +69,7 @@ async def test_async_actor_func_in_thread(
 ) -> None:
     result = "generic result"
 
-    @async_dramatiq_actor(store_results=True)
+    @async_actor(store_results=True)
     async def test_async():
         return result
 
@@ -86,7 +88,7 @@ async def test_async_actor_func_in_thread(
 async def test_sync_actor_func() -> None:
     result = "generic result"
 
-    @async_dramatiq_actor()
+    @async_actor()
     def test_sync():
         return result
 
@@ -96,7 +98,7 @@ async def test_sync_actor_func() -> None:
 def test_sync_actor_func_no_loop() -> None:
     result = "generic result"
 
-    @async_dramatiq_actor()
+    @async_actor()
     def test_sync():
         return result
 
@@ -108,7 +110,7 @@ async def test_sync_actor_func_in_thread(
 ) -> None:
     result = "generic result"
 
-    @async_dramatiq_actor(store_results=True)
+    @async_actor(store_results=True)
     def test_async():
         return result
 
@@ -124,7 +126,7 @@ async def test_sync_actor_func_in_thread(
 async def test_async_request(
     worker: Worker, async_stub_backend: AsyncStubBackend
 ) -> None:
-    @async_dramatiq_actor(store_results=True)
+    @async_actor(store_results=True)
     async def test_async():
         await asyncio.sleep(0.25)
         return True

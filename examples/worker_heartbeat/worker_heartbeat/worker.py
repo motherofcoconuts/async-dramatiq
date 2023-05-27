@@ -9,7 +9,7 @@ from dramatiq.brokers.stub import StubBroker
 
 # Local Application Imports
 import async_dramatiq as adtq
-from async_dramatiq.actors import async_dramatiq_actor
+from async_dramatiq.actors import async_actor
 from async_dramatiq.backends import AsyncRedisBackend, AsyncStubBackend
 from async_dramatiq.middleware import AsyncMiddleware, StubAsyncMiddleware
 from async_dramatiq.types import DramatiqWorkerPriority, TaskQueue
@@ -21,9 +21,7 @@ queues = {bg_queue.queue: bg_queue}
 
 # Decorator for background tasks
 bg_task = partial(
-    async_dramatiq_actor,
-    priority=DramatiqWorkerPriority.HIGH,
-    queue_name=bg_queue.queue,
+    async_actor, priority=DramatiqWorkerPriority.HIGH, queue_name=bg_queue.queue
 )
 
 

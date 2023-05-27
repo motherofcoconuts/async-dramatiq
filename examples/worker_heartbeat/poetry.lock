@@ -36,7 +36,7 @@ version = "0.1.8"
 description = "Dramatiq with Asyncio support and some other goodies"
 category = "main"
 optional = false
-python-versions = ">=3.8.1,<4.0.0"
+python-versions = ">=3.10.1,<4.0.0"
 files = [
     {file = "async_dramatiq-0.1.8-py3-none-any.whl", hash = "sha256:fc1bafd0a8c26c99f02f65f4750bdaad4ee18b06cd95c18d77eff48e2274f182"},
     {file = "async_dramatiq-0.1.8.tar.gz", hash = "sha256:c9b439b82c0f74c552e3c1132b0f67adbc8a4d6614d5a7c0a0a2c3ac70e55ff7"},
@@ -629,5 +629,5 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.8.1"
+python-versions = "^3.10.1"
 content-hash = "0daaf53a803e8986e1fdd05775562edb64d7d4500745deeb1cb16228152a9a83"

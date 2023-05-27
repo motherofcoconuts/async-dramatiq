@@ -5,7 +5,7 @@ This is an example repo to show off some of the best practices and baseline func
 ## Setup
 1. Install docker and docker-compose ( https://docs.docker.com/compose/install/ )
 2. Start docker ( https://docs.docker.com/config/daemon/start/ )
-3. Install python > 3.8 ( https://www.python.org/downloads/ )
+3. Install python > 3.10 ( https://www.python.org/downloads/ )
 4. Install poetry ( https://python-poetry.org/docs/ )
 5. Install the package: `poetry install`
 

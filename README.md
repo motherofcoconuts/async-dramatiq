@@ -1,7 +1,7 @@
 # Dramatiq with Asyncio
-[Dramatiq](https://dramatiq.io/) is a background task processing library for Python with a focus on simplicity, reliability and performance.
+[Dramatiq](https://dramatiq.io/) is a background task-processing library for Python with a focus on simplicity, reliability and performance.
 
-This package extends dramatiq to provide the following:
+This package extends Dramatiq to provide the following:
   1. Support for Asyncio ( [issue #238](https://github.com/Bogdanp/dramatiq/issues/238) )
   2. Message scheduling support ( [scheduling cookbook](https://dramatiq.io/cookbook.html#scheduling-messages) )
 
@@ -70,7 +70,7 @@ class MyAsyncMiddleware(AsyncMiddleware):
 ```
 
 ## Async Actor
-The async actor, `async_dramatiq_actor`,  acts as a thin wrapper around the dramatiq actor providing a variety of new functionality.
+The async actor, `async_dramatiq_actor`,  acts as a thin wrapper around the Dramatiq actor providing a variety of new functionality.
 
 #### Interval Jobs
 Run a job at some interval
@@ -90,7 +90,7 @@ def run_at_midnight() -> None:
 
 ## Running
 ### The Scheduler
-Checkout [run_scheduler.py](examples/worker_heartbeat/run_scheduler.py) for an example on running the scheduler.
+Check out [run_scheduler.py](examples/worker_heartbeat/run_scheduler.py) for an example of running the scheduler.
 ### Dramatiq Worker
-Check out the offical guide [dramatiq](https://dramatiq.io/guide.html#workers)
+Check out the official guide [dramatiq](https://dramatiq.io/guide.html#workers)](https://dramatiq.io/guide.html#workers)
 

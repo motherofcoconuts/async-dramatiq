@@ -17,7 +17,7 @@ def worker_heartbeat() -> float:
 
 @bg_task(store_results=True)
 async def worker_sleep(sleep_for: float) -> float:
-    logging.info(f"Worker Slepping for {sleep_for} seconds")
+    logging.info(f"Worker Sleeping for {sleep_for} seconds")
     await asyncio.sleep(sleep_for)
     logging.info("Worker is awake")
 

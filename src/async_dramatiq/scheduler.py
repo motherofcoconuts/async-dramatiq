@@ -14,6 +14,7 @@ class ScheduledFunction:
     func_name: str
 
 
+# Global list of scheduled jobs
 scheduled_jobs: list[ScheduledFunction] = []
 
 
@@ -29,8 +30,19 @@ def _add_trigger(
 
 
 def register_cron(func: Callable[..., Any], crontab: str) -> None:
+    """Register a function to be called on a cron schedule.
+
+    :param func: The function to call.
+    :param crontab: The cron schedule at which to call the function at.
+        Check out https://crontab.guru/ for help.
+    """
     _add_trigger(CronTrigger.from_crontab(crontab), func)
 
 
 def register_interval(func: Callable[..., Any], interval: timedelta) -> None:
+    """Register a function to be called on an interval.
+
+    :param func: The function to call.
+    :param interval: The interval at which to call the function at. This is a timedelta.
+    """
     _add_trigger(IntervalTrigger(seconds=interval.total_seconds()), func)

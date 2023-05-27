@@ -1,6 +1,12 @@
 # Standard Library Imports
+import sys
 from dataclasses import dataclass
-from enum import IntEnum
+
+# Use IntEnum if Python version is greater than 3.11
+if sys.version_info < (3, 11):
+    from enum import Enum as IntEnum
+else:
+    from enum import IntEnum
 
 
 class DramatiqWorkerPriority(IntEnum):

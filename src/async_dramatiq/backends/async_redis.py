@@ -9,11 +9,16 @@ from dramatiq.results.backends.redis import RedisBackend
 
 
 class AsyncRedisBackend(RedisBackend):
+    """A Redis backend that supports async redis client.
+
+    TODO: Use async redis client instead of sync client
+    """
+
     async def get_result(
         self, message: dq.Message, *, block: bool = False, timeout: int | None = None
     ) -> Result:
-        """Get a result from the backend.
-        Sub-second timeouts are not respected by this backend.
+        """Get a result from the backend. Sub-second timeouts are not respected by
+        this backend.
 
         :param message: The dramatiq message object
         :param block: Whether or not to block until a result is set.

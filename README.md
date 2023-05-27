@@ -1,24 +1,18 @@
-# Dramatiq with Asyncio
-[Dramatiq](https://dramatiq.io/) is a background task processing library for Python with a focus on simplicity, reliability and performance.
+# Quick Start
+## Background
+[Dramatiq](https://dramatiq.io/) is a background task-processing library for Python with a focus on simplicity, reliability and performance.
 
-This package extends dramatiq to provide the following:
+This package, [async-dramatiq](https://pypi.org/project/async-dramatiq/), extends Dramatiq to provide the following:
   1. Support for Asyncio ( [issue #238](https://github.com/Bogdanp/dramatiq/issues/238) )
   2. Message scheduling support ( [scheduling cookbook](https://dramatiq.io/cookbook.html#scheduling-messages) )
 
-### Getting Started
-The quickest way to get started is by playing around with the [worker heartbeat example](examples/worker_heartbeat/README.md).
-
-# The Code
-## Async Middleware
-### Broker
+## Setup
 To provide async support for your actors all you need to do is add the `AsyncMiddleware` to your broker.
 #### RabbitMQ Broker
 
 ```
 import dramatiq
-
 from dramatiq.brokers.rabbitmq import RabbitmqBroker
-
 
 rabbitmq_broker = RabbitmqBroker(host="rabbitmq")
 rabbitmq_broker.add_middleware(AsyncMiddleware())  # <--- Here
@@ -29,16 +23,26 @@ dramatiq.set_broker(rabbitmq_broker)
 
 ```
 import dramatiq
-import dramatiq
-
 from dramatiq.brokers.redis import RedisBroker
-
 
 redis_broker = RedisBroker(host="redis")
 redis_broker.add_middleware(AsyncMiddleware()) # <--- Here
 dramatiq.set_broker(redis_broker)
 ```
 
+## Running
+#### The Scheduler
+We leverage [apscheduler](https://pypi.org/project/APScheduler/) as our scheduling system. Check out [run_scheduler.py](examples/worker_heartbeat/run_scheduler.py) for an example of running this scheduler.
+#### Dramatiq Worker
+For more details check out the official guide to [dramatiq](https://dramatiq.io/guide.html#workers) or [docker-compose.yaml](examples/worker_heartbeat/docker-compose.yaml) for a specific example.
+
+
+## Example
+Play around with [worker-heartbeat-example](examples/worker_heartbeat/README.md). A functioning and featured example implementation.
+
+----
+# Async Middleware
+`AsyncMiddleware` will start a `AsyncWorker` which will be used to run the event loop. This event loop will be shared across the Worker threads. 
 ### Startup and Shutdown Events
 To startup and shutdown any resources the `AsyncMiddleware` provides two hooks:
 1. Before the event loop is started
@@ -70,28 +74,22 @@ class MyAsyncMiddleware(AsyncMiddleware):
         thread.event_loop.close()
 ```
 
-## Async Actor
-The async actor, `async_dramatiq_actor`,  acts as a thin wrapper around the dramatiq actor providing a variety of new functionality.
+# Async Actor
+The async actor, `async_actor`,  acts as a thin wrapper around the Dramatiq actor providing a variety of new functionality.
 
-#### Interval Jobs
+## Interval Jobs
 Run a job at some interval
 ```
-@async_dramatiq_actor(interval=timedelta(seconds=5))
+@async_actor(interval=timedelta(seconds=5))
 def run_every_5_seconds() -> None:
     pass
 ```
 
-#### Cron Jobs
+## Cron Jobs
 Run a job on a crontab ( See https://crontab.guru/. )
 ```
-@async_dramatiq_actor(interval="0 0 * * *")
+@async_actor(interval="0 0 * * *")
 def run_at_midnight() -> None:
   pass
 ```
-
-## Running
-### The Scheduler
-Checkout [run_scheduler.py](examples/worker_heartbeat/run_scheduler.py) for an example on running the scheduler.
-### Dramatiq Worker
-Check out the offical guide [dramatiq](https://dramatiq.io/guide.html#workers)
 

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 # Standard Library Imports
 import asyncio
 import inspect
@@ -18,7 +16,7 @@ class AsyncActor(dq.Actor):
         self.event_loop: asyncio.BaseEventLoop | None = None
 
     def __call__(self, *args: Any, **kwargs: dict[str, Any]) -> Any:
-        """Synchronously call this actor.
+        """Call this function apropriately depending on its type.
 
         :param *args: Positional arguments to send to the actor.
         :param **kwargs: Keyword arguments to send to the actor.
@@ -51,7 +49,7 @@ class AsyncActor(dq.Actor):
         self.event_loop = loop
 
 
-def async_dramatiq_actor(
+def async_actor(
     *,
     interval: timedelta | None = None,
     crontab: str | None = None,

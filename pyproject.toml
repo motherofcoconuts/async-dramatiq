@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "async_dramatiq"
-version = "0.1.7"
+version = "0.1.8"
 description = "Dramatiq with Asyncio support and some other goodies"
 authors = ["Ryan Houlihan <ryan@rhoulihan.com>"]
 license = "MIT License"
@@ -13,7 +13,7 @@ homepage = "https://github.com/motherofcoconuts/async-dramatiq"
 "Bug Tracker" = "https://github.com/motherofcoconuts/async-dramatiq/issues"
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = "^3.10.1"
 dramatiq = { extras = ["redis", "rabbitmq", "watch"], version = "*"}
 apscheduler = "*"
 
@@ -114,7 +114,7 @@ sort_by_size = true
 verbose = false
 
 [tool.mypy]
-python_version = "^3.8"
+python_version = "3.10"
 ignore_missing_imports = true
 scripts_are_modules = true
 implicit_reexport = true

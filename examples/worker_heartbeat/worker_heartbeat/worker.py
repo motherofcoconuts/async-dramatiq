@@ -9,21 +9,24 @@ from dramatiq.brokers.stub import StubBroker
 
 # Local Application Imports
 import async_dramatiq as adtq
-from async_dramatiq.actors import async_dramatiq_actor
+from async_dramatiq.actor import async_actor
 from async_dramatiq.backends import AsyncRedisBackend, AsyncStubBackend
 from async_dramatiq.middleware import AsyncMiddleware, StubAsyncMiddleware
 from async_dramatiq.types import DramatiqWorkerPriority, TaskQueue
 from async_dramatiq.worker import AsyncWorker
 
 # Declare the queues
-bg_queue = TaskQueue(queue="bg_tasks")
-queues = {bg_queue.queue: bg_queue}
+bg_queue = TaskQueue(queue="background_tasks")
+lr_queue = TaskQueue(queue="long_running_tasks")
+
+queues = {bg_queue.queue: bg_queue, lr_queue.queue: lr_queue}
 
 # Decorator for background tasks
 bg_task = partial(
-    async_dramatiq_actor,
-    priority=DramatiqWorkerPriority.HIGH,
-    queue_name=bg_queue.queue,
+    async_actor, priority=DramatiqWorkerPriority.HIGH, queue_name=bg_queue.queue
+)
+lr_task = partial(
+    async_actor, priority=DramatiqWorkerPriority.MEDIUM, queue_name=lr_queue.queue
 )
 
 
@@ -38,6 +41,8 @@ async def shutdown() -> None:
 
 
 class MyAsyncMiddleware(AsyncMiddleware):
+    """Middleware to run the startup/shutdown functions on worker start/stop."""
+
     def before_async_worker_thread_startup(
         self, _: RabbitmqBroker, thread: AsyncWorker, **kwargs: dict[str, Any]
     ) -> None:

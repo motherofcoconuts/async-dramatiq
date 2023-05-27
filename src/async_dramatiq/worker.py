@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 # Standard Library Imports
 import asyncio
 from threading import Event, Thread

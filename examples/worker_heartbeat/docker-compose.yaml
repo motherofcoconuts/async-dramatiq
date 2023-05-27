@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+    dramatiq:
+        container_name: dramatiq-worker
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: &img worker-heartbeat
+        env_file: .env
+        command: dramatiq worker_heartbeat.tasks -p 1 -t 4
+        ports:
+            - 9191:9191
+        depends_on:
+            redis:
+                condition: service_healthy
+            rabbitmq:
+                condition: service_healthy
+        volumes:
+            - ./src/worker_heartbeat:/src/worker_heartbeat
+
+    scheduler:
+        container_name: dramatiq-scheduler
+        image: *img
+        pull_policy: never
+        env_file: .env
+        command: python run_scheduler.py
+        depends_on:
+            dramatiq:
+                condition: service_started
+
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:3-management-alpine
+        environment:
+            RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+            RABBITMQ_DEFAULT_USER: ${BROKER_USER}
+            RABBITMQ_DEFAULT_PASS: ${BROKER_PASSWORD}
+        ports:
+            - ${BROKER_PORT}:5672
+            - ${BROKER_MANAGEMENT_PORT}:15672
+        healthcheck:
+            test: rabbitmq-diagnostics -q check_port_connectivity
+            interval: 5s
+            timeout: 15s
+            retries: 5
+
+    redis:
+        container_name: redis
+        image: "redis:latest"
+        init: true
+        ports:
+            - ${REDIS_PORT}:6379
+        sysctls:
+            net.core.somaxconn: "511"
+        restart: 'on-failure'
+        command: redis-server --save "" --appendonly no
+        healthcheck:
+            test: redis-cli ping

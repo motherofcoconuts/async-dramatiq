@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "async_dramatiq"
-version = "0.1.5"
+version = "0.1.6"
 description = "Dramatiq with Asyncio support and some other goodies"
 authors = ["Ryan Houlihan <ryan@rhoulihan.com>"]
 license = "MIT License"
@@ -28,6 +28,7 @@ pytest-cov = "*"
 vulture = "*"
 isort = "*"
 autoflake = "*"
+pre-commit = "*"
 
 [build-system]
 requires = ["setuptools", "poetry-core>=1.0.0"]
@@ -113,7 +114,7 @@ sort_by_size = true
 verbose = false
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "^3.8"
 ignore_missing_imports = true
 scripts_are_modules = true
 implicit_reexport = true

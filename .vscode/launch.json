@@ -12,7 +12,7 @@
             "console": "integratedTerminal",
             "justMyCode": false,
             "env": {
-                "ENV_FILE_PATH": "${workspaceRoot}/envs/.env.debug",
+                "ENV_FILE_PATH": ".env",
             }
         },
         {
@@ -29,6 +29,6 @@
                 "PYTEST_ADDOPTS": "--no-cov",
                 "TESTING_NO_TEARDOWN": "true",
             },
-        }
+        },
     ]
 }

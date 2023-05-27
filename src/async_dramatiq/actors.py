@@ -31,9 +31,9 @@ class AsyncActor(dq.Actor):
             running_event_loop = None
 
         if inspect.iscoroutinefunction(self.fn):
-            if running_event_loop:  # Call function directly
+            if running_event_loop:  # Call function directly on running event loop
                 result = self.fn(*args, **kwargs)
-            elif (  # Call function through worker thread
+            elif (  # Run function async worker thread event loop
                 self.event_loop and self.event_loop.is_running()
             ):
                 future = asyncio.run_coroutine_threadsafe(
@@ -42,8 +42,9 @@ class AsyncActor(dq.Actor):
                 result = future.result()
             else:  # This should not happen
                 raise RuntimeError("No event")
-        else:
+        else:  # Call function directly
             result = self.fn(*args, **kwargs)
+
         return result
 
     def set_event_loop(self, loop: asyncio.BaseEventLoop | None) -> None:
@@ -62,7 +63,7 @@ def async_dramatiq_actor(
     """Thin wrapper which turns a function into a dramatiq actor.
 
     :param interval: Run this function at a defined interval
-    :param crontab: Run this function as a cron job
+    :param crontab: Run this function as a cron job. See https://crontab.guru/.
     :param priority: The actor's global priority.  If two tasks have
         been pulled on a worker concurrently and one has a higher
         priority than the other then it will be processed first.

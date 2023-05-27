@@ -8,6 +8,8 @@ import dramatiq as dq
 
 
 class AsyncWorker(Thread):
+    """Worker thread that runs and manages the Asyncio Event Loop."""
+
     def __init__(self, startup_event: Event, broker: dq.broker.Broker) -> None:
         Thread.__init__(self)
         self.startup_event = startup_event
@@ -24,6 +26,7 @@ class AsyncWorker(Thread):
         ]:
             actor.set_event_loop(self.event_loop)
 
+        # Signal that the event loop has started
         self.event_loop.call_soon_threadsafe(self.startup_event.set)
         self.event_loop.run_forever()
 

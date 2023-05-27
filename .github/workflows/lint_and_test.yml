@@ -49,13 +49,10 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry install --no-interaction --no-root
 
-      - name: Checkout branch and submodules
-        uses: actions/checkout@v3
-
       - name: Lint and Test
         shell: bash
         run: |
-          source .venv/bin/activate
+          . .venv/bin/activate
           sh ./scripts/lint.sh
           pytest -sv --cov-report=xml tests          
 

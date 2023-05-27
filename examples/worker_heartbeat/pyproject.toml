@@ -9,7 +9,7 @@ packages = [{ include = "worker_heartbeat" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-async-dramatiq = "^0.1.5"
+async-dramatiq = "^0.1.6"
 click = "^8.1.3"
 
 

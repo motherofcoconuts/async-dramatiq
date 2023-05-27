@@ -58,3 +58,8 @@ jobs:
           . .venv/bin/activate
           pytest -sv --cov-report=xml tests
 
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+

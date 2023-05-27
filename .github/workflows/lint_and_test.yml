@@ -31,7 +31,6 @@ jobs:
             && sudo apt-get install -y libpoppler-cpp-dev pkg-config procps \
             && sudo apt-get install -y --no-install-recommends g++ libgeos-dev
 
-
       - name: Install latest version of Poetry
         shell: bash
         if: steps.cache-poetry.outputs.cache-hit != 'true'
@@ -39,10 +38,11 @@ jobs:
           curl -sSL https://install.python-poetry.org | python -
           echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
+      - name: Checkout branch and submodules
+        uses: actions/checkout@v3
+
       - name: Install dependencies
         shell: bash
-        env:
-          PAT_TOKEN: ${{ inputs.pat-token }}
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           poetry install --no-interaction --no-root

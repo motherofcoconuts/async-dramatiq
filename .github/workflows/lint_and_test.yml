@@ -45,16 +45,18 @@ jobs:
         shell: bash
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
           poetry install --no-interaction --no-root
 
       - name: Checkout branch and submodules
         uses: actions/checkout@v3
 
-      - name: Lint and MyPy
-        run: sh ./scripts/lint.sh
-
-      - name: Run Tests
-        run: pytest -sv --cov-report=xml tests
+      - name: Lint and Test
+        run: |
+          . .venv/bin/activate
+          sh ./scripts/lint.sh
+          pytest -sv --cov-report=xml tests          
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3

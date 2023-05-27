@@ -68,6 +68,9 @@ jobs:
           . .venv/bin/activate
           sh ./scripts/lint.sh
           pytest -sv --cov-report=xml tests          
+        env:
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3

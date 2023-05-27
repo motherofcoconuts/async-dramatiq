@@ -1,4 +1,5 @@
 # Standard Library Imports
+import os
 import time
 from threading import Thread
 
@@ -9,6 +10,9 @@ from dramatiq.results.backend import ResultMissing, ResultTimeout
 
 # Local Application Imports
 from async_dramatiq.backends import AsyncRedisBackend, AsyncStubBackend, set_backend
+
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = os.getenv("REDIS_PORT", 6379)
 
 
 def get_message() -> Message:
@@ -36,7 +40,9 @@ def delayed_store(
     backend.store_result(message=msg, result=result, ttl=ttl)
 
 
-@pytest.mark.parametrize("backend", [AsyncRedisBackend(), AsyncStubBackend()])
+@pytest.mark.parametrize(
+    "backend", [AsyncRedisBackend(host=REDIS_HOST, port=REDIS_PORT), AsyncStubBackend()]
+)
 async def test_get_result_happy_path(
     backend: AsyncRedisBackend | AsyncStubBackend,
 ) -> None:
@@ -49,7 +55,9 @@ async def test_get_result_happy_path(
     assert returned_result == result
 
 
-@pytest.mark.parametrize("backend", [AsyncRedisBackend(), AsyncStubBackend()])
+@pytest.mark.parametrize(
+    "backend", [AsyncRedisBackend(host=REDIS_HOST, port=REDIS_PORT), AsyncStubBackend()]
+)
 async def test_get_result_result_missing(
     backend: AsyncRedisBackend | AsyncStubBackend,
 ) -> None:
@@ -61,7 +69,9 @@ async def test_get_result_result_missing(
         await backend.get_result(msg)
 
 
-@pytest.mark.parametrize("backend", [AsyncRedisBackend(), AsyncStubBackend()])
+@pytest.mark.parametrize(
+    "backend", [AsyncRedisBackend(host=REDIS_HOST, port=REDIS_PORT), AsyncStubBackend()]
+)
 async def test_get_result_blocking_happy_path(
     backend: AsyncRedisBackend | AsyncStubBackend,
 ) -> None:
@@ -78,7 +88,9 @@ async def test_get_result_blocking_happy_path(
     t1.join()
 
 
-@pytest.mark.parametrize("backend", [AsyncRedisBackend(), AsyncStubBackend()])
+@pytest.mark.parametrize(
+    "backend", [AsyncRedisBackend(host=REDIS_HOST, port=REDIS_PORT), AsyncStubBackend()]
+)
 async def test_get_result_blocking_timeout(
     backend: AsyncRedisBackend | AsyncStubBackend,
 ) -> None:

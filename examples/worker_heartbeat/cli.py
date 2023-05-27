@@ -2,7 +2,7 @@
 import asyncio
 
 import click
-from worker_heartbeat.tasks import worker_heartbeat, worker_sleep
+from worker_heartbeat.tasks import async_worker_sleep, worker_heartbeat
 
 # Local Application Imports
 import async_dramatiq as adtq
@@ -16,7 +16,7 @@ async def heartbeat() -> None:
 
 
 async def sleep(sleep_for: float) -> None:
-    msg = worker_sleep.send(sleep_for)
+    msg = async_worker_sleep.send(sleep_for)
     print(f"Sending sleep task {msg}...")
     result = await adtq.get_backend().get_result(msg, block=True)
     print(f"Worker slept for {result} seconds")

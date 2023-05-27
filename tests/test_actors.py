@@ -9,7 +9,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from dramatiq import Worker
 
 # Local Application Imports
-from async_dramatiq.actors import async_actor
+from async_dramatiq.actor import async_actor
 from async_dramatiq.backends import AsyncStubBackend, get_backend
 from async_dramatiq.scheduler import scheduled_jobs
 

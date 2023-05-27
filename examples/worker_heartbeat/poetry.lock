@@ -32,14 +32,23 @@ zookeeper = ["kazoo"]
 
 [[package]]
 name = "async-dramatiq"
+<<<<<<< Updated upstream
 version = "0.1.5"
+=======
+version = "0.1.6"
+>>>>>>> Stashed changes
 description = "Dramatiq with Asyncio support and some other goodies"
 category = "main"
 optional = false
 python-versions = ">=3.8.1,<4.0.0"
 files = [
+<<<<<<< Updated upstream
     {file = "async_dramatiq-0.1.5-py3-none-any.whl", hash = "sha256:64532fcf28c0b22a1dcc3788e8dafcb1acde5ebf91f7d6a15c039eeb658435b5"},
     {file = "async_dramatiq-0.1.5.tar.gz", hash = "sha256:dcbaa99e9441a1c9aca819d4f9153003cca80ba9261c9c0ecfe39e431887100c"},
+=======
+    {file = "async_dramatiq-0.1.6-py3-none-any.whl", hash = "sha256:86fc6d489fddc86c407da37db78865a86d17d2c6c54bede7f50a532890818f68"},
+    {file = "async_dramatiq-0.1.6.tar.gz", hash = "sha256:2a46e1cf3d8d5fe967ecaf1c5352c967caaadf4198b9194382ebf16183d656a1"},
+>>>>>>> Stashed changes
 ]
 
 [package.dependencies]
@@ -600,4 +609,8 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
+<<<<<<< Updated upstream
 content-hash = "02eaff515be15d1ccb58cdfd287f1761338bfb880602b439d254f91f696aa5cb"
+=======
+content-hash = "df0f4bbf6b8f46a7870bcf75a7de0c3cda1460e4211631d4516e08f330685668"
+>>>>>>> Stashed changes

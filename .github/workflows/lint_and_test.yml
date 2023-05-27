@@ -30,6 +30,9 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          # Opens tcp port 6379 on the host and service container
+          - 6379:6379
 
     steps:
       - name: Set up Python 3.11

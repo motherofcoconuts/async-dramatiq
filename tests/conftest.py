@@ -13,6 +13,14 @@ from async_dramatiq.backends import AsyncRedisBackend, AsyncStubBackend, set_bac
 from async_dramatiq.middleware import AsyncMiddleware
 
 
+@pytest.fixture(scope="function", autouse=True)
+def reset_async_middleware_is_initialized() -> None:
+    import async_dramatiq.middleware.async_base as async_base
+
+    async_base.is_initialized = False
+    yield
+
+
 def check_redis(client: redis.Redis) -> None:
     try:
         client.ping()

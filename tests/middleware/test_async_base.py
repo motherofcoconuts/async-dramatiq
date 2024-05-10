@@ -9,16 +9,11 @@ import pytest
 from async_dramatiq.middleware.async_base import AsyncMiddleware
 
 
-@pytest.fixture(scope="function")
-def reset_is_initialized() -> None:
+def test_async_base(broker: dq.Broker, worker: dq.Worker) -> None:
     import async_dramatiq.middleware.async_base as async_base
 
     async_base.is_initialized = False
 
-
-def test_async_base(reset_is_initialized: Any) -> None:
-    broker = dq.Broker()
-    worker = dq.Worker(broker)
     with mock.patch(
         "async_dramatiq.worker.AsyncWorker.start"
     ) as mock_async_worker_start, mock.patch("threading.Event.wait", return_value=True):
@@ -28,11 +23,11 @@ def test_async_base(reset_is_initialized: Any) -> None:
     mock_async_worker_start.assert_called()
 
 
-def test_async_base_only_callable_once(
-    reset_is_initialized: Any,
-) -> None:
-    broker = dq.Broker()
-    worker = dq.Worker(broker)
+def test_async_base_only_callable_once(broker: dq.Broker, worker: dq.Worker) -> None:
+    import async_dramatiq.middleware.async_base as async_base
+
+    async_base.is_initialized = False
+
     with mock.patch(
         "async_dramatiq.worker.AsyncWorker.start"
     ) as mock_async_worker_start, mock.patch("threading.Event.wait", return_value=True):

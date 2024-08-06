@@ -17,6 +17,9 @@ class DramatiqWorkerPriority(IntEnum):
     LOW = 5
     VERY_LOW = 6
 
+    def to_rabbitmq_priority(self) -> int:
+        return 6 - self.value
+
 
 @dataclass
 class TaskQueue:
